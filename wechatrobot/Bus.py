@@ -1,6 +1,5 @@
 from typing import Callable, List, Any
 from collections import defaultdict
-from .Utils import run_funcs
 
 class EventBus:
     def __init__(self):
@@ -10,4 +9,7 @@ class EventBus:
         self._subscribers[event].add(func)
 
     def emit(self, event: str, *args, **kwargs) -> List[Any]:
-        return run_funcs(self._subscribers[event], *args,**kwargs)
+        results = []
+        for f in self._subscribers[event]:
+            results.append(f(*args, **kwargs))
+        return results

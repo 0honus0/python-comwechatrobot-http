@@ -7,7 +7,7 @@ class Api:
     port : int = 18888
 
     def IsLoginIn(self , **params) -> bool:
-        return self.post(WECHAT_IS_LOGIN , IsLoginInBody(**params))
+        return self.post(WECHAT_IS_LOGIN , IsLoginBody(**params))
 
     def GetSelfInfo(self , **params):
         return self.post(WECHAT_GET_SELF_INFO , GetSelfInfoBody(**params))
@@ -133,7 +133,7 @@ class Api:
         return self.post(WECHAT_GET_QRCODE_IMAGE , GetQrcodeImageBody(**params))
 
     def post(self , type : int, params : Body):
-        return json.loads(requests.post( f"http://127.0.0.1:{self.port}/api/?type={type}", data = params.json()).text)
+        return requests.post( f"http://127.0.0.1:{self.port}/api/?type={type}", data = params.json()).text
 
     def exec_command(self , item: str) -> Callable:
         return eval(f"self.{item}")

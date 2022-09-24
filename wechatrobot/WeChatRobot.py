@@ -15,10 +15,6 @@ class WeChatRobot:
         self.ip = ip
         self.port = port
         self.api = Api()
-        #StartHook
-        print(self.StartMsgHook(port = port))
-        print(self.StartImageHook(save_path = ""))
-        print(self.StartVoiceHook(save_path = ""))
 
         self.url = "http://{}:{}/".format(ip , port)
 
@@ -30,12 +26,24 @@ class WeChatRobot:
         return deco
 
     def run(self , main_thread : bool = True):
-        def receive_callback(data):
-            return self.post(data)
-        
+        #StartHook
+        self.StartMsgHook(port = self.port)
+        self.StartImageHook(save_path = "")
+        self.StartVoiceHook(save_path = "")
+
         class ReceiveMsgSocketServer(socketserver.BaseRequestHandler):
             def __init__(self, *args, **kwargs):
                 super().__init__(*args, **kwargs)
+
+            def receive_callback(msg):
+                if 1 == msg["isSendMsg"]:
+                    Bus.emit("self_msg", msg)
+                elif "chatroom" in msg["sender"]:
+                    Bus.emit("group_msg", msg) 
+                elif "gh" in msg["sender"]:
+                    Bus.emit("public_msg", msg)
+                else:
+                    Bus.emit("friend_msg", msg)
 
             def handle(self):
                 conn = self.request
@@ -49,14 +57,7 @@ class WeChatRobot:
                                 conn.sendall("200 OK".encode())
                                 break
                         msg = json.loads(ptr_data.decode('utf-8'))
-
-                        if 1 == msg["isSendMsg"]:
-                            Bus.emit("self_msg", msg)
-                        elif "chatroom" in msg["sender"]:
-                            Bus.emit("group_msg", msg) 
-                        else:
-                            Bus.emit("friend_msg", msg)
-                        
+                        receive_callback(msg)
                     except OSError:
                         break
                     except json.JSONDecodeError:
@@ -78,10 +79,6 @@ class WeChatRobot:
         except Exception as e:
             print(e)
         return None
-
-    # on_friend_msg = on("friend_msg")
-    # on_group_msg  = on("group_msg")
-    # on_self_msg =   on("self_msg")
 
     def __getattr__(self , item : str):
         return self.api.exec_command(item)
