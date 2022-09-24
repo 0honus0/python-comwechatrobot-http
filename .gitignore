@@ -9,3 +9,4 @@ python_comwechatrobot_http.egg-info/
 image.py
 testrobot.py
 wechatrobot/__pycache__/
+db/

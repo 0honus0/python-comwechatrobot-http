@@ -5,6 +5,7 @@ from .Modles import *
 
 class Api:
     port : int = 18888
+    db_handle : int = 0
 
     def IsLoginIn(self , **params) -> bool:
         return self.post(WECHAT_IS_LOGIN , IsLoginBody(**params))
@@ -21,7 +22,7 @@ class Api:
     def SendCard(self , **params):
         return self.post(WECHAT_MSG_SEND_CARD , SendCardBody(**params))
 
-    def SendImage(**params):
+    def SendImage(self , **params):
         return self.post(WECHAT_MSG_SEND_IMAGE , SendImageBody(**params))
 
     def SendFile(**params):
@@ -132,8 +133,30 @@ class Api:
     def GetQrcodeImage(self , **params):
         return self.post(WECHAT_GET_QRCODE_IMAGE , GetQrcodeImageBody(**params))
 
-    def post(self , type : int, params : Body):
-        return requests.post( f"http://127.0.0.1:{self.port}/api/?type={type}", data = params.json()).text
+    #[自定义
+    def GetDbHandle(self) -> Union[None, int]:
+        try:
+            return [i for i in json.loads(self.GetDatabaseHandles())["data"] if i["db_name"] == "MicroMsg.db"][0]["handle"] 
+        except:
+            return None
+
+    def GetContactListBySql(self):
+        if not self.db_handle:
+            self.db_handle = self.GetDbHandle()
+        sql = "select UserName,Alias,Remark,NickName from Contact" 
+        return self.QueryDatabase(db_handle=self.db_handle,sql=sql)
+
+    def GetPictureBySql(self):
+        if not self.db_handle:
+            self.db_handle = self.GetDbHandle()
+        sql = "select usrName,bigHeadImgUrl from ContactHeadImgUrl" 
+        return self.QueryDatabase(db_handle=self.db_handle,sql=sql)
+
+    
+    #自定义]
+
+    def post(self , type : int, params : Body) -> Dict:
+        return json.loads(requests.post( f"http://127.0.0.1:{self.port}/api/?type={type}", data = params.json()).text)
 
     def exec_command(self , item: str) -> Callable:
         return eval(f"self.{item}")

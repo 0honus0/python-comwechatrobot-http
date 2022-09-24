@@ -1,6 +1,6 @@
 from typing import Callable
 import threading
-
+import logging
 import socketserver
 import requests
 import json
@@ -8,7 +8,11 @@ import json
 from .Api import Api
 from .Bus import EventBus
 
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
 Bus = EventBus()
+
+BASE_PATH = '''C:\\users\\user\My Documents\WeChat Files\\'''
 
 class WeChatRobot:
     def __init__(self , ip : str = "0.0.0.0" , port : int = 23456):
@@ -77,7 +81,7 @@ class WeChatRobot:
         except KeyboardInterrupt:
             pass
         except Exception as e:
-            print(e)
+            logging.error(e)
         return None
 
     def __getattr__(self , item : str):
