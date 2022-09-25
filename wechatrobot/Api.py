@@ -7,156 +7,154 @@ class Api:
     port : int = 18888
     db_handle : int = 0
 
-    def IsLoginIn(self , **params) -> bool:
+    def IsLoginIn(self , **params) -> Dict:
         return self.post(WECHAT_IS_LOGIN , IsLoginBody(**params))
 
-    def GetSelfInfo(self , **params):
+    def GetSelfInfo(self , **params) -> Dict:
         return self.post(WECHAT_GET_SELF_INFO , GetSelfInfoBody(**params))
 
-    def SendText(self , **params):
+    def SendText(self , **params) -> Dict:
         return self.post(WECHAT_MSG_SEND_TEXT , SendTextBody(**params))
 
-    def SendAt(self , **params):
+    def SendAt(self , **params) -> Dict:
         return self.post(WECHAT_MSG_SEND_AT , SendAtBody(**params))
 
-    def SendCard(self , **params):
+    def SendCard(self , **params) -> Dict:
         return self.post(WECHAT_MSG_SEND_CARD , SendCardBody(**params))
 
-    def SendImage(self , **params):
+    def SendImage(self , **params) -> Dict:
         return self.post(WECHAT_MSG_SEND_IMAGE , SendImageBody(**params))
 
-    def SendFile(**params):
+    def SendFile(**params) -> Dict:
         return self.post(WECHAT_MSG_SEND_FILE , SendFileBody(**params))
     
-    def SendArticle(**params):
+    def SendArticle(**params) -> Dict:
         return self.post(WECHAT_MSG_SEND_ARTICLE , SendArticleBody(**params))
 
-    def SendApp(**params):
+    def SendApp(**params) -> Dict:
         return self.post(WECHAT_MSG_SEND_APP , SendAppBody(**params))
 
-    def StartMsgHook(self, **params):
+    def StartMsgHook(self, **params) -> Dict:
         return self.post(WECHAT_MSG_START_HOOK , StartMsgHookBody(**params))
 
-    def StopMsgHook(self , **params):
+    def StopMsgHook(self , **params) -> Dict:
         return self.post(WECHAT_MSG_STOP_HOOK , StopMsgHookBody(**params))
     
-    def StartImageHook(self , **params):
+    def StartImageHook(self , **params) -> Dict:
         return self.post(WECHAT_MSG_START_IMAGE_HOOK , StartImageHookBody(**params))
 
-    def StopImageHook(self , **params):
+    def StopImageHook(self , **params) -> Dict:
         return self.post(WECHAT_MSG_STOP_IMAGE_HOOK , StopImageHookBody(**params))
 
-    def StartVoiceHook(self , **params):
+    def StartVoiceHook(self , **params) -> Dict:
         return self.post(WECHAT_MSG_STOP_VOICE_HOOK , StartVoiceHookBody(**params))
 
-    def StopVoiceHook(self , **params):
+    def StopVoiceHook(self , **params) -> Dict:
         return self.post(WECHAT_MSG_STOP_VOICE_HOOK , StopVoiceHookBody(**params))
 
-    def GetContactList(self , **params):
+    def GetContactList(self , **params) -> Dict:
         return self.post(WECHAT_CONTACT_GET_LIST , GetContactListBody(**params))
 
-    def CheckContactStatus(self , **params):
+    def CheckContactStatus(self , **params) -> Dict:
         return self.post(WECHAT_CONTACT_CHECK_STATUS , CheckContactStatusBody(**params))
 
-    def DelContact(self , **params):
+    def DelContact(self , **params) -> Dict:
         return self.post(WECHAT_CONTACT_DEL , DelContactBody(**params))
 
-    def SearchContactByCache(self , **params):
+    def SearchContactByCache(self , **params) -> Dict:
         return self.post(WECHAT_CONTACT_SEARCH_BY_CACHE , SearchContactByCacheBody(**params))
 
-    def SearchContactByNet(self , **params):
+    def SearchContactByNet(self , **params) -> Dict:
         return self.post(WECHAT_CONTACT_SEARCH_BY_NET , SearchContactByNetBody(**params))
 
-    def AddContactByWxid(self , **params):
+    def AddContactByWxid(self , **params) -> Dict:
         return self.post(WECHAT_CONTACT_ADD_BY_WXID , AddContactByWxidBody(**params))
 
-    def AddContactByV3(self , **params):
+    def AddContactByV3(self , **params) -> Dict:
         return self.post(WECHAT_CONTACT_ADD_BY_V3 , AddContactByV3Body(**params))
 
-    def AddContactByPublicId(self , **params):
+    def AddContactByPublicId(self , **params) -> Dict:
         return self.post(WECHAT_CONTACT_ADD_BY_PUBLIC_ID , AddContactByPublicIdBody(**params))
 
-    def VerifyApply(self , **params):
+    def VerifyApply(self , **params) -> Dict:
         return self.post(WECHAT_CONTACT_VERIFY_APPLY , VerifyApplyBody(**params))
 
-    def EditRemark(self , **params):
+    def EditRemark(self , **params) -> Dict:
         return self.post(WECHAT_CONTACT_EDIT_REMARK , EditRemarkBody(**params))
 
-    def GetChatroomMemberList(self , **params):
+    def GetChatroomMemberList(self , **params) -> Dict:
         return self.post(WECHAT_CHATROOM_GET_MEMBER_LIST , GetChatroomMemberListBody(**params))
 
-    def GetChatroomMemberNickname(self , **params):
+    def GetChatroomMemberNickname(self , **params) -> Dict:
         return self.post(WECHAT_CHATROOM_GET_MEMBER_NICKNAME , GetChatroomMemberNicknameBody(**params))
 
-    def DelChatroomMember(self , **params):
+    def DelChatroomMember(self , **params) -> Dict:
         return self.post(WECHAT_CHATROOM_DEL_MEMBER , DelChatroomMemberBody(**params))
 
-    def AddChatroomMember(self , **params):
+    def AddChatroomMember(self , **params) -> Dict:
         return self.post(WECHAT_CHATROOM_ADD_MEMBER , AddChatroomMemberBody(**params))
 
-    def SetChatroomAnnouncement(self , **params):
+    def SetChatroomAnnouncement(self , **params) -> Dict:
         return self.post(WECHAT_CHATROOM_SET_ANNOUNCEMENT , SetChatroomAnnouncementBody(**params))
 
-    def SetChatroomName(self , **params):
+    def SetChatroomName(self , **params) -> Dict:
         return self.post(WECHAT_CHATROOM_SET_CHATROOM_NAME , SetChatroomNameBody(**params))
 
-    def SetChatroomSelfNickname(self , **params):
+    def SetChatroomSelfNickname(self , **params) -> Dict:
         return self.post(WECHAT_CHATROOM_SET_SELF_NICKNAME , SetChatroomSelfNicknameBody(**params))
 
-    def GetDatabaseHandles(self , **params):
+    def GetDatabaseHandles(self , **params) -> Dict:
         return self.post(WECHAT_DATABASE_GET_HANDLES , GetDatabaseHandlesBody(**params))
 
-    def BackupDatabase(self , **params):
+    def BackupDatabase(self , **params) -> Dict:
         return self.post(WECHAT_DATABASE_BACKUP , BackupDatabaseBody(**params))
 
-    def QueryDatabase(self , **params):
+    def QueryDatabase(self , **params) -> Dict:
         return self.post(WECHAT_DATABASE_QUERY , QueryDatabaseBody(**params))
 
-    def SetVersion(self , **params):
+    def SetVersion(self , **params) -> Dict:
         return self.post(WECHAT_SET_VERSION , SetVersionBody(**params))
 
-    def StartLogHook(self , **params):
+    def StartLogHook(self , **params) -> Dict:
         return self.post(WECHAT_LOG_START_HOOK , StartLogHookBody(**params))
 
-    def StopLogHook(self , **params):
+    def StopLogHook(self , **params) -> Dict:
         return self.post(WECHAT_LOG_STOP_HOOK , StopLogHookBody(**params))
 
-    def OpenBrowserWithUrl(self , **params):
+    def OpenBrowserWithUrl(self , **params) -> Dict:
         return self.post(WECHAT_BROWSER_OPEN_WITH_URL , OpenBrowserWithUrlBody(**params))
 
-    def GetPublicMsg(self , **params):
+    def GetPublicMsg(self , **params) -> Dict:
         return self.post(WECHAT_GET_PUBLIC_MSG , GetPublicMsgBody(**params))
 
-    def ForwardMessage(self , **params):
+    def ForwardMessage(self , **params) -> Dict:
         return self.post(WECHAT_MSG_FORWARD_MESSAGE , ForwardMessageBody(**params))
 
     def GetQrcodeImage(self , **params):
         return self.post(WECHAT_GET_QRCODE_IMAGE , GetQrcodeImageBody(**params))
 
     #[自定义
-    def GetDbHandle(self) -> Union[None, int]:
+    def GetDBHandle(self) -> Union[None, int]:
         try:
-            return [i for i in json.loads(self.GetDatabaseHandles())["data"] if i["db_name"] == "MicroMsg.db"][0]["handle"] 
+            return [i for i in self.GetDatabaseHandles()["data"] if i["db_name"] == "MicroMsg.db"][0]["handle"] 
         except:
-            return None
+        return None
 
     def GetContactListBySql(self):
         if not self.db_handle:
-            self.db_handle = self.GetDbHandle()
+            self.db_handle = self.GetDBHandle()
         sql = "select UserName,Alias,Remark,NickName from Contact" 
         return self.QueryDatabase(db_handle=self.db_handle,sql=sql)
 
     def GetPictureBySql(self):
         if not self.db_handle:
-            self.db_handle = self.GetDbHandle()
+            self.db_handle = self.GetDBHandle()
         sql = "select usrName,bigHeadImgUrl from ContactHeadImgUrl" 
         return self.QueryDatabase(db_handle=self.db_handle,sql=sql)
-
-    
     #自定义]
 
     def post(self , type : int, params : Body) -> Dict:
-        return json.loads(requests.post( f"http://127.0.0.1:{self.port}/api/?type={type}", data = params.json()).text)
+        return json.loads(requests.post( f"http://127.0.0.1:{self.port}/api/?type={type}", data = params.json()).content.decode("utf-8"),strict=False)
 
     def exec_command(self , item: str) -> Callable:
         return eval(f"self.{item}")

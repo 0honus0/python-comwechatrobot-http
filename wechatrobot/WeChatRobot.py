@@ -39,7 +39,7 @@ class WeChatRobot:
             def __init__(self, *args, **kwargs):
                 super().__init__(*args, **kwargs)
 
-            def receive_callback(msg):
+            def receive_callback(self , msg):
                 if 1 == msg["isSendMsg"]:
                     Bus.emit("self_msg", msg)
                 elif "chatroom" in msg["sender"]:
@@ -61,7 +61,7 @@ class WeChatRobot:
                                 conn.sendall("200 OK".encode())
                                 break
                         msg = json.loads(ptr_data.decode('utf-8'))
-                        receive_callback(msg)
+                        self.receive_callback(msg)
                     except OSError:
                         break
                     except json.JSONDecodeError:
