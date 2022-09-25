@@ -142,16 +142,25 @@ class Api:
         except:
             return None
 
-    def GetContactListBySql(self):
+    def GetContactListBySql(self) -> Dict:
         if not self.db_handle:
             self.db_handle = self.GetDBHandle()
-        sql = "select UserName,Alias,Remark,NickName from Contact" 
-        return self.QueryDatabase(db_handle=self.db_handle,sql=sql)
+        sql = "select UserName,Alias,Remark,NickName,Type from Contact"   #  where type!=4 and type!=0;
+        ContactList = self.QueryDatabase(db_handle=self.db_handle, sql=sql)["data"]
+        contact_data = {}         # {wxid : {alias, remark, nickname , type}}
+        for index in range(1 , len(ContactList)):
+            wxid = ContactList[index][0]
+            contact_data[wxid] = {}
+            contact_data[wxid]['alias'] = ContactList[index][1]
+            contact_data[wxid]['remark'] = ContactList[index][2]
+            contact_data[wxid]['nickname'] = ContactList[index][3]
+            contact_data[wxid]['type'] = ContactList[index][4]
+        return contact_data
 
-    def GetPictureBySql(self):
+    def GetPictureBySql(self , wxid) -> Dict:
         if not self.db_handle:
             self.db_handle = self.GetDBHandle()
-        sql = "select usrName,bigHeadImgUrl from ContactHeadImgUrl" 
+        sql = f"select usrName,bigHeadImgUrl from ContactHeadImgUrl where usrName='{wxid}';" 
         return self.QueryDatabase(db_handle=self.db_handle,sql=sql)
 
     def GetAllGroupMembersBySql(self) -> Dict:

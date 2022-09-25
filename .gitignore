@@ -4,9 +4,10 @@ test.py
 __pychche__/
 build/*
 dist/*
-python_comwechatrobot_http.egg-info/
+*.egg-info/
 1.dat
 image.py
 testrobot.py
 wechatrobot/__pycache__/
 db/
+*.pyc

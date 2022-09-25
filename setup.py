@@ -12,7 +12,7 @@ exec(open('wechatrobot/__version__.py').read())
 
 
 setup(
-    name="python-comwechatrobot-http",
+    name="wechatrobot",
     version=__version__,
     description='http api for comwechatrobot',
     author='honus',
@@ -20,7 +20,7 @@ setup(
     url="",
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
     python_requires='>=3.7',
-    keywords=["python-CuteCat-iHttp", ],
+    keywords=["wechatrobot", ],
     install_requires=[
         "requests",
         "pydantic",
