@@ -2,6 +2,8 @@ from typing import Callable, Any, Union, Awaitable , Optional , Dict
 import requests
 import json
 from .Modles import *
+import base64
+from wechatrobot import ChatRoomData_pb2 as ChatRoom
 
 class Api:
     port : int = 18888
@@ -151,6 +153,22 @@ class Api:
             self.db_handle = self.GetDBHandle()
         sql = "select usrName,bigHeadImgUrl from ContactHeadImgUrl" 
         return self.QueryDatabase(db_handle=self.db_handle,sql=sql)
+
+    def GetAllGroupMembersBySql(self) -> Dict:
+        group_data = {} #{"group_id" : { "wxID" : "displayName"}}
+        if not self.db_handle:
+            self.db_handle = self.GetDBHandle()
+        sql = "select ChatRoomName,RoomData from ChatRoom"
+        GroupMemberList = self.QueryDatabase(db_handle = self.db_handle, sql = sql)['data']
+        chatroom = ChatRoom.ChatRoomData()
+        for index in range(1 , len(GroupMemberList)):
+            group_member = {}
+            chatroom.ParseFromString(bytes(base64.b64decode(GroupMemberList[index][1])))
+            for k in chatroom.members:
+                if k.displayName != "":
+                    group_member[k.wxID] = k.displayName
+            group_data[GroupMemberList[index][0]] = group_member
+        return group_data
     #自定义]
 
     def post(self , type : int, params : Body) -> Dict:

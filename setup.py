@@ -24,6 +24,7 @@ setup(
     install_requires=[
         "requests",
         "pydantic",
+        "protobuf==3.20.1",
     ],
     long_description=long_description,
     long_description_content_type="text/markdown",
