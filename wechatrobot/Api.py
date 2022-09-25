@@ -138,7 +138,7 @@ class Api:
         try:
             return [i for i in self.GetDatabaseHandles()["data"] if i["db_name"] == "MicroMsg.db"][0]["handle"] 
         except:
-        return None
+            return None
 
     def GetContactListBySql(self):
         if not self.db_handle:
