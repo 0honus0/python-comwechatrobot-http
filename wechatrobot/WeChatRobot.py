@@ -70,7 +70,7 @@ class WeChatRobot:
 
                 msg['type'] = type_dict.get(msg['type'] , 'unhandled')
 
-                if 1 == msg["isSendMsg"]:
+                if 1 == msg["isSendMsg"] and 1 == msg["isSendByPhone"]:
                     Bus.emit("self_msg", msg)
                 elif "chatroom" in msg["sender"]:
                     Bus.emit("group_msg", msg) 
