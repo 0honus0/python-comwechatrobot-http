@@ -133,7 +133,8 @@ class Api:
         return self.post(WECHAT_MSG_FORWARD_MESSAGE , ForwardMessageBody(**params))
 
     def GetQrcodeImage(self , **params):
-        return self.post(WECHAT_GET_QRCODE_IMAGE , GetQrcodeImageBody(**params))
+        r = requests.post( f"http://127.0.0.1:{self.port}/api/?type={WECHAT_GET_QRCODE_IMAGE}", data = GetQrcodeImageBody(**params).json())
+        return r.content
 
     #[自定义
     def GetDBHandle(self) -> Union[None, int]:

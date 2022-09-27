@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(level
 
 Bus = EventBus()
 
-BASE_PATH = '''C:\\users\\user\My Documents\WeChat Files\\'''
+# BASE_PATH = '''C:\\users\\user\My Documents\WeChat Files\\'''
 
 class WeChatRobot:
     def __init__(self , ip : str = "0.0.0.0" , port : int = 23456):
@@ -70,8 +70,9 @@ class WeChatRobot:
 
                 msg['type'] = type_dict.get(msg['type'] , 'unhandled')
 
-                if 1 == msg["isSendMsg"] and 1 == msg["isSendByPhone"]:
-                    Bus.emit("self_msg", msg)
+                if (1 == msg["isSendMsg"]):
+                    if 1 == msg["isSendByPhone"]:
+                        Bus.emit("self_msg", msg)
                 elif "chatroom" in msg["sender"]:
                     Bus.emit("group_msg", msg) 
                 elif "gh_" in msg["sender"]:
@@ -116,8 +117,3 @@ class WeChatRobot:
 
     def __getattr__(self , item : str):
         return self.api.exec_command(item)
-
-if __name__ == "__main__":
-    robot = WeChatRobot()
-
-    robot.run(main_thread = True)
