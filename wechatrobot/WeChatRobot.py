@@ -12,9 +12,9 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(level
 
 Bus = EventBus()
 
-# BASE_PATH = '''C:\\users\\user\My Documents\WeChat Files\\'''
-
 class WeChatRobot:
+    BASE_PATH = "C:\\users\\user\\My Documents\\WeChat Files"
+
     def __init__(self , ip : str = "0.0.0.0" , port : int = 23456):
         self.ip = ip
         self.port = port
@@ -32,8 +32,8 @@ class WeChatRobot:
     def run(self , main_thread : bool = True):
         #StartHook
         self.StartMsgHook(port = self.port)
-        self.StartImageHook(save_path = "C:\\users\\user\\My Documents\\WeChat Files")
-        self.StartVoiceHook(save_path = "C:\\users\\user\\My Documents\\WeChat Files")
+        self.StartImageHook(save_path = self.BASE_PATH)
+        self.StartVoiceHook(save_path = self.BASE_PATH)
 
         class ReceiveMsgSocketServer(socketserver.BaseRequestHandler):
             def __init__(self, *args, **kwargs):
@@ -75,8 +75,8 @@ class WeChatRobot:
                         Bus.emit("self_msg", msg)
                 elif "chatroom" in msg["sender"]:
                     Bus.emit("group_msg", msg) 
-                elif "gh_" in msg["sender"]:
-                    Bus.emit("public_msg", msg)
+                # elif "gh_" in msg["sender"]:
+                #     Bus.emit("public_msg", msg)
                 else:
                     Bus.emit("friend_msg", msg)
 
@@ -114,6 +114,9 @@ class WeChatRobot:
         except Exception as e:
             logging.error(e)
         return None
+
+    def get_base_path(self):
+        return self.BASE_PATH
 
     def __getattr__(self , item : str):
         return self.api.exec_command(item)

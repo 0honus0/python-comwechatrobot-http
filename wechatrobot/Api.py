@@ -27,7 +27,7 @@ class Api:
     def SendImage(self , **params) -> Dict:
         return self.post(WECHAT_MSG_SEND_IMAGE , SendImageBody(**params))
 
-    def SendFile(**params) -> Dict:
+    def SendFile(self , **params) -> Dict:
         return self.post(WECHAT_MSG_SEND_FILE , SendFileBody(**params))
     
     def SendArticle(**params) -> Dict:

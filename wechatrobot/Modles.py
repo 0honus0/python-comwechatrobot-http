@@ -93,12 +93,12 @@ class SendCardBody(Body):
     nickname   : str
 
 class SendImageBody(Body):
-    receiver : str
-    img_path    : str
+    receiver  : str
+    img_path  : str
 
 class SendFileBody(Body):
-    receiver : str
-    file_path   : str
+    receiver  : str
+    file_path : str
 
 class SendArticleBody(Body):
     wxid     : str
