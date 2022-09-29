@@ -30,10 +30,10 @@ class Api:
     def SendFile(self , **params) -> Dict:
         return self.post(WECHAT_MSG_SEND_FILE , SendFileBody(**params))
     
-    def SendArticle(**params) -> Dict:
+    def SendArticle(self , **params) -> Dict:
         return self.post(WECHAT_MSG_SEND_ARTICLE , SendArticleBody(**params))
 
-    def SendApp(**params) -> Dict:
+    def SendApp(self , **params) -> Dict:
         return self.post(WECHAT_MSG_SEND_APP , SendAppBody(**params))
 
     def StartMsgHook(self, **params) -> Dict:
