@@ -49,7 +49,7 @@ class Api:
         return self.post(WECHAT_MSG_STOP_IMAGE_HOOK , StopImageHookBody(**params))
 
     def StartVoiceHook(self , **params) -> Dict:
-        return self.post(WECHAT_MSG_STOP_VOICE_HOOK , StartVoiceHookBody(**params))
+        return self.post(WECHAT_MSG_START_VOICE_HOOK  , StartVoiceHookBody(**params))
 
     def StopVoiceHook(self , **params) -> Dict:
         return self.post(WECHAT_MSG_STOP_VOICE_HOOK , StopVoiceHookBody(**params))
@@ -158,12 +158,6 @@ class Api:
             contact_data[wxid]['type'] = ContactList[index][4]
         return contact_data
 
-    def GetPictureBySql(self , wxid) -> Dict:
-        if not self.db_handle:
-            self.db_handle = self.GetDBHandle()
-        sql = f"select usrName,bigHeadImgUrl from ContactHeadImgUrl where usrName='{wxid}';" 
-        return self.QueryDatabase(db_handle=self.db_handle,sql=sql)
-
     def GetAllGroupMembersBySql(self) -> Dict:
         group_data = {} #{"group_id" : { "wxID" : "displayName"}}
         if not self.db_handle:
@@ -179,6 +173,22 @@ class Api:
                     group_member[k.wxID] = k.displayName
             group_data[GroupMemberList[index][0]] = group_member
         return group_data
+
+    def GetPictureBySql(self , wxid) -> Dict:
+        if not self.db_handle:
+            self.db_handle = self.GetDBHandle()
+        sql = f"select usrName,bigHeadImgUrl from ContactHeadImgUrl where usrName='{wxid}';" 
+        return self.QueryDatabase(db_handle=self.db_handle,sql=sql)
+
+    def GetContactBySql(self , wxid):
+        if not self.db_handle:
+            self.db_handle = self.GetDBHandle()
+        sql = f"select UserName,Alias,Remark,NickName,Type from Contact where UserName='{wxid}';" 
+        result = self.QueryDatabase(db_handle=self.db_handle,sql=sql)
+        if len(result["data"]) > 0:
+            return result["data"][1]
+        else:
+            return None
     #自定义]
 
     def post(self , type : int, params : Body) -> Dict:
