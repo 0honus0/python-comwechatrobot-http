@@ -64,7 +64,7 @@ class WeChatRobot:
                     2004   : 'file',
                     2005   : 'revokemsg',
                     2006   : 'groupannouncement',
-                    10000  : 'sysmsg',      # 拍一拍 语音消息 撤回消息 等等 , 通过SendOutMsg接收
+                    10000  : 'sysmsg',      # 拍一拍 语音消息 撤回消息 邀请入群 移出群
                     10002  : 'other'        # multivoip , taptap , ClientCheckConsistency, 邀请加入群聊并分享历史消息
                 }
 

@@ -178,7 +178,11 @@ class Api:
         if not self.db_handle:
             self.db_handle = self.GetDBHandle()
         sql = f"select usrName,bigHeadImgUrl from ContactHeadImgUrl where usrName='{wxid}';" 
-        return self.QueryDatabase(db_handle=self.db_handle,sql=sql)
+        result = self.QueryDatabase(db_handle=self.db_handle,sql=sql)
+        try:
+            return result['data'][1][1]
+        except:
+            return None
 
     def GetContactBySql(self , wxid):
         if not self.db_handle:
