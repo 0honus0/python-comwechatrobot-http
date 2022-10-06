@@ -177,10 +177,14 @@ class Api:
     def GetPictureBySql(self , wxid) -> Dict:
         if not self.db_handle:
             self.db_handle = self.GetDBHandle()
-        sql = f"select usrName,bigHeadImgUrl from ContactHeadImgUrl where usrName='{wxid}';" 
+        sql = f"select usrName,smallHeadImgUrl,bigHeadImgUrl from ContactHeadImgUrl where usrName='{wxid}';" 
         result = self.QueryDatabase(db_handle=self.db_handle,sql=sql)
         try:
-            return result['data'][1][1]
+            if result["data"][1][2] != "":
+                return result["data"][1][2]
+            if result["data"][1][1] != "":
+                return result["data"][1][1]
+            return None
         except:
             return None
 
