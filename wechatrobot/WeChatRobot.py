@@ -97,6 +97,9 @@ class WeChatRobot:
                         break
                     except json.JSONDecodeError:
                         pass
+                    except UnicodeDecodeError as e:
+                        logging.error(e)
+                        logging.error(msg)
                 conn.close()
 
         ip_port = ( self.ip , self.port )
