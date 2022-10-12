@@ -11,3 +11,4 @@ testrobot.py
 wechatrobot/__pycache__/
 db/
 *.pyc
+docker*

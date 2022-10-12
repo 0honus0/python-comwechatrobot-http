@@ -13,7 +13,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(level
 Bus = EventBus()
 
 class WeChatRobot:
-    BASE_PATH = "C:\\users\\user\\My Documents\\WeChat Files"
+    BASE_PATH = "C:\\Users\\user\\My Documents\\WeChat Files"
 
     def __init__(self , ip : str = "0.0.0.0" , port : int = 23456):
         self.ip = ip
