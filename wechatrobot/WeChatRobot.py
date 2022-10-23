@@ -68,7 +68,7 @@ class WeChatRobot:
                     10002  : 'other'        # multivoip , taptap , ClientCheckConsistency, 邀请加入群聊并分享历史消息
                 }
 
-                msg['type'] = type_dict.get(msg['type'] , 'unhandled')
+                msg['type'] = type_dict.get(msg['type'] , 'unhandled'+str(msg['type']))
 
                 if (1 == msg["isSendMsg"]):
                     if 1 == msg["isSendByPhone"]:
