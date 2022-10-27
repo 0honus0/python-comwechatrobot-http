@@ -7,7 +7,7 @@ from wechatrobot import ChatRoomData_pb2 as ChatRoom
 
 class Api:
     port : int = 18888
-    db_handle : int = 0
+    db_handle : Dict[str, int] = 0
 
     def IsLoginIn(self , **params) -> Dict:
         return self.post(WECHAT_IS_LOGIN , IsLoginBody(**params))
@@ -137,33 +137,39 @@ class Api:
         return r.content
 
     #[自定义
-    def GetDBHandle(self) -> Union[None, int]:
-        try:
-            return [i for i in self.GetDatabaseHandles()["data"] if i["db_name"] == "MicroMsg.db"][0]["handle"] 
-        except:
-            return None
+    def GetDBHandle(self, db_name="MicroMsg.db") -> int:
+        if not self.db_handle:
+            self.db_handle = {i["db_name"]: i["handle"] for i in self.GetDatabaseHandles()["data"]}
+
+        return self.db_handle[db_name]
 
     def GetContactListBySql(self) -> Dict:
-        if not self.db_handle:
-            self.db_handle = self.GetDBHandle()
         sql = "select UserName,Alias,Remark,NickName,Type from Contact"   #  where type!=4 and type!=0;
-        ContactList = self.QueryDatabase(db_handle=self.db_handle, sql=sql)["data"]
+        ContactList = self.QueryDatabase(db_handle=self.GetDBHandle(), sql=sql)["data"]
         contact_data = {}         # {wxid : {alias, remark, nickname , type}}
-        for index in range(1 , len(ContactList)):
+        for index in range(1, len(ContactList)):
             wxid = ContactList[index][0]
             contact_data[wxid] = {}
             contact_data[wxid]['alias'] = ContactList[index][1]
             contact_data[wxid]['remark'] = ContactList[index][2]
             contact_data[wxid]['nickname'] = ContactList[index][3]
             contact_data[wxid]['type'] = ContactList[index][4]
+
+        sql = "select UserName,'' as Alias,Remark,NickName,Type from OpenIMContact"   #  where type!=4 and type!=0;
+        OpenIMContactList = self.QueryDatabase(db_handle=self.GetDBHandle("OpenIMContact.db"), sql=sql)["data"]
+        for index in range(1, len(OpenIMContactList)):
+            wxid = OpenIMContactList[index][0]
+            contact_data[wxid] = {}
+            contact_data[wxid]['alias'] = ContactList[index][1]
+            contact_data[wxid]['remark'] = OpenIMContactList[index][2]
+            contact_data[wxid]['nickname'] = OpenIMContactList[index][3]
+            contact_data[wxid]['type'] = OpenIMContactList[index][4]
         return contact_data
 
     def GetAllGroupMembersBySql(self) -> Dict:
         group_data = {} #{"group_id" : { "wxID" : "displayName"}}
-        if not self.db_handle:
-            self.db_handle = self.GetDBHandle()
         sql = "select ChatRoomName,RoomData from ChatRoom"
-        GroupMemberList = self.QueryDatabase(db_handle = self.db_handle, sql = sql)['data']
+        GroupMemberList = self.QueryDatabase(db_handle=self.GetDBHandle(), sql = sql)['data']
         chatroom = ChatRoom.ChatRoomData()
         for index in range(1 , len(GroupMemberList)):
             group_member = {}
@@ -174,11 +180,13 @@ class Api:
             group_data[GroupMemberList[index][0]] = group_member
         return group_data
 
-    def GetPictureBySql(self , wxid) -> Dict:
-        if not self.db_handle:
-            self.db_handle = self.GetDBHandle()
-        sql = f"select usrName,smallHeadImgUrl,bigHeadImgUrl from ContactHeadImgUrl where usrName='{wxid}';" 
-        result = self.QueryDatabase(db_handle=self.db_handle,sql=sql)
+    def GetPictureBySql(self, wxid) -> Dict:
+        if not wxid.endswith("@openim"):
+            sql = f"select usrName,smallHeadImgUrl,bigHeadImgUrl from ContactHeadImgUrl where usrName='{wxid}';" 
+            result = self.QueryDatabase(db_handle=self.GetDBHandle(),sql=sql)
+        else:
+            sql = f"select UserName,SmallHeadImgUrl,BigHeadImgUrl from OpenIMContact where UserName='{wxid}';" 
+            result = self.QueryDatabase(db_handle=self.GetDBHandle("OpenIMContact.db"),sql=sql)
         try:
             if result["data"][1][2] != "":
                 return result["data"][1][2]
@@ -188,11 +196,13 @@ class Api:
         except:
             return None
 
-    def GetContactBySql(self , wxid):
-        if not self.db_handle:
-            self.db_handle = self.GetDBHandle()
-        sql = f"select UserName,Alias,Remark,NickName,Type from Contact where UserName='{wxid}';" 
-        result = self.QueryDatabase(db_handle=self.db_handle,sql=sql)
+    def GetContactBySql(self, wxid):
+        if not wxid.endswith("@openim"):
+            sql = f"select UserName,Alias,Remark,NickName,Type from Contact where UserName='{wxid}';" 
+            result = self.QueryDatabase(db_handle=self.GetDBHandle(),sql=sql)
+        else:
+            sql = f"select UserName,'' as Alias,Remark,NickName,Type from OpenIMContact where UserName='{wxid}';" 
+            result = self.QueryDatabase(db_handle=self.GetDBHandle("OpenIMContact.db"),sql=sql)
         if len(result["data"]) > 0:
             return result["data"][1]
         else:
