@@ -71,13 +71,13 @@ class WeChatRobot:
 
                 msg['type'] = type_dict.get(msg['type'] , 'unhandled'+str(msg['type']))
 
-                if (1 == msg["isSendMsg"]):
+                if '<sysmsg type="revokemsg">' in msg["message"]:
+                    Bus.emit("revoke_msg", msg)
+                elif (1 == msg["isSendMsg"]):
                     if 1 == msg["isSendByPhone"]:
                         Bus.emit("self_msg", msg)
                 elif "chatroom" in msg["sender"]:
-                    Bus.emit("group_msg", msg) 
-                # elif "gh_" in msg["sender"]:
-                #     Bus.emit("public_msg", msg)
+                    Bus.emit("group_msg", msg)
                 else:
                     Bus.emit("friend_msg", msg)
 
