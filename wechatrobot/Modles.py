@@ -62,6 +62,12 @@ WECHAT_GET_PUBLIC_MSG = 39                  # 获取公众号历史消息
 
 WECHAT_MSG_FORWARD_MESSAGE = 40             # 转发消息
 WECHAT_GET_QRCODE_IMAGE = 41                # 获取二维码
+WECHAT_GET_A8KEY = 42                       # 获取A8Key
+WECHAT_MSG_SEND_XML = 43                    # 发送xml消息
+WECHAT_LOGOUT = 44                          # 退出登录
+WECHAT_GET_TRANSFER = 45                    # 收款
+WECHAT_MSG_SEND_EMOTION = 46                # 发送表情
+WECHAT_GET_CDN = 47                         # 下载文件、视频、图片
 
 # Body
 
@@ -233,3 +239,32 @@ class ForwardMessageBody(Body):
 #qrcode
 class GetQrcodeImageBody(Body):
     ...
+
+#a8key
+class GetA8KeyBody(Body):
+    url : str
+
+#send xml
+class SendXmlBody(Body):
+    wxid     : str
+    xml      : str
+    img_path : str
+
+#logout
+class LogoutBody(Body):
+    ...
+
+#get transfer
+class GetTransferBody(Body):
+    wxid          : str
+    transcationid : str
+    transferid    : str
+
+#send emotion
+class SendEmotionBody(Body):
+    wxid     : str
+    img_path : str
+
+#get cdn
+class GetCdnBody(Body):
+    msgid : int

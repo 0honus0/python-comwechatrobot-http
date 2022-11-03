@@ -136,6 +136,24 @@ class Api:
         r = requests.post( f"http://127.0.0.1:{self.port}/api/?type={WECHAT_GET_QRCODE_IMAGE}", data = GetQrcodeImageBody(**params).json())
         return r.content
 
+    def GetA8Key(self , **params) -> Dict:
+        return self.post(WECHAT_GET_A8KEY , GetA8KeyBody(**params))
+
+    def SendXml(self , **params) -> Dict:
+        return self.post(WECHAT_MSG_SEND_XML , SendXmlBody(**params))
+
+    def LogOut(self , **params) -> Dict:
+        return self.post(WECHAT_LOGOUT , LogOutBody(**params))
+
+    def GetTransfer(self , **params) -> Dict:
+        return self.post(WECHAT_GET_TRANSFER , GetTransferBody(**params))
+
+    def SendEmotion(self , **params) -> Dict:
+        return self.post(WECHAT_MSG_SEND_EMOTION , SendEmotionBody(**params))
+
+    def GetCdn(self , **params) -> Dict:
+        return self.post(WECHAT_GET_CDN , GetCdnBody(**params))
+
     #[自定义
     def GetDBHandle(self, db_name="MicroMsg.db") -> int:
         if not self.db_handle:
