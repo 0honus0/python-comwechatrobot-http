@@ -42,8 +42,6 @@ class WeChatRobot:
             def receive_callback(self , msg):
                 type_dict = {
                     0      : 'eventnotify', # 成员变更 
-                    1009   : 'eventnotify', # 减少成员 
-                    1010   : 'eventnotify', # 添加成员
                     1      : 'text',
                     3      : 'image',
                     9      : 'scancashmoney',            # 面对面付款
@@ -56,7 +54,10 @@ class WeChatRobot:
                     48     : 'location',
                     49     : 'share',
                     50     : 'voip',
+                    51     : 'phone',
                     106    : 'sysnotify',   # system notification 修改群名称
+                    1009   : 'eventnotify', # 减少成员 
+                    1010   : 'eventnotify', # 添加成员
                     2000   : 'transfer',
                     2001   : 'redpacket',
                     2002   : 'miniprogram',
