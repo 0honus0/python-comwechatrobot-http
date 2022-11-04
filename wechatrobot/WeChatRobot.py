@@ -71,8 +71,12 @@ class WeChatRobot:
 
                 msg['type'] = type_dict.get(msg['type'] , 'unhandled'+str(msg['type']))
 
-                if '<sysmsg type="revokemsg">' in msg["message"]:
+                if msg["type"] == "friendrequest":
+                    Bus.emit("frdver_msg" , msg)
+                elif '<sysmsg type="revokemsg">' in msg["message"]:
                     Bus.emit("revoke_msg", msg)
+                elif "微信转账" in msg["message"] and "<paysubtype>1</paysubtype>" in msg["message"]:
+                    Bus.emit("transfer_msg", msg)
                 elif (1 == msg["isSendMsg"]):
                     if 1 == msg["isSendByPhone"]:
                         Bus.emit("self_msg", msg)
