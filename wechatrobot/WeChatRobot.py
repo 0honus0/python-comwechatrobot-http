@@ -73,6 +73,8 @@ class WeChatRobot:
 
                 if msg["type"] == "friendrequest":
                     Bus.emit("frdver_msg" , msg)
+                elif msg["type"] == "card":
+                    Bus.emit("card_msg" , msg)
                 elif '<sysmsg type="revokemsg">' in msg["message"]:
                     Bus.emit("revoke_msg", msg)
                 elif "微信转账" in msg["message"] and "<paysubtype>1</paysubtype>" in msg["message"]:
