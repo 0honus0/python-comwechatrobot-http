@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic.v1 import BaseModel
 
 # login check
 WECHAT_IS_LOGIN = 0                         # 登录检查
